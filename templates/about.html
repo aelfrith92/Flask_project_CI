@@ -2,9 +2,6 @@
 {% block content %}
         <h2>{{ page_title }}</h2>
         <p>
-                {{ characters[0]['name'] }}
-        </p>
-        <p>
            The formation of the group grew out of a meeting Gandalf had with Thorin in Bree which kindled Thorin's interest in
 		recapturing his long lost family inheritance. (Thorin's grandfather had been the king of the Lonely Mountain when
 		Smaug came and took it.) Remembering that he had once known an adventurous Hobbit on his travels in the Shire,
@@ -14,7 +11,34 @@
 		leave on other business, welcomed a fourteenth to fill into their party.     
         </p>
 
-        <div class="row featurette">
+        {% for character in characters %}
+                {% if loop.index % 2 != 0 %}
+                        <div class="row featurette">
+                                <div class="col-md-7">
+                                        <h3>{{ character['name'] }}</h3>
+                                        <p>{{ character['description'] }}</p>
+                                </div>
+                                <div class="col-md-5">
+                                        <img src="{{ character['img_source'] }}" alt="">
+                                </div>
+                        </div>
+                {% else %}
+                        <div class="row featurette">
+                                <div class="col-md-5">
+                                        <img src="{{ character['img_source'] }}" alt="">
+                                </div>
+                                <div class="col-md-7">
+                                        <h3>{{ character['name'] }}</h3>
+                                        <p>{{ character['description'] }}</p>
+                                </div>
+                        </div>
+                {% endif %}
+                {% if loop.index != loop.length  %}
+                        <hr class="featurette-divider">
+                {% endif %}
+        {% endfor %}
+
+        <!--div class="row featurette">
                 <div class="col-md-7">
                         <h3>Thorin Oakenshield</h3>
 			<p>
@@ -247,5 +271,5 @@
                                 along with many other Dwarves of The Company of Thorin.
                         </p>
                 </div>
-        </div>
+        </div-->
 {% endblock %}

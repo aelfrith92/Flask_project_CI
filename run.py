@@ -15,7 +15,10 @@ def about():
     data = []
     with open('data/characters.json', 'r', encoding="utf-8") as json_data:
         data = json.load(json_data)
-    return render_template('about.html', page_title='About', characters=data)
+    return render_template(
+          'about.html',
+          page_title='About the company',
+          characters=data)
 
 
 @app.route('/contact')
