@@ -1,8 +1,11 @@
 import os
 import json
-from flask import Flask, render_template
+from flask import Flask, render_template, request, flash
+if os.path.exists("env.py"):
+    import env 
 
 app = Flask(__name__)
+app.secret_key = os.environ.get("SECRET_KEY")
 
 
 @app.route('/')
@@ -21,8 +24,22 @@ def about():
           characters=data)
 
 
-@app.route('/contact')
+@app.route('/about/<character_name>')
+def about_character(character_name):
+    character = {}
+    with open('data/characters.json', 'r', encoding="utf-8") as json_data:
+        data = json.load(json_data)
+        for obj in data:
+            if obj['url'] == character_name:
+                character = obj
+    return render_template('character.html', character=character)
+
+
+@app.route('/contact', methods=["GET", "POST"])
 def contact():
+    if request.method == "POST":
+        flash("Thanks {}, we have received your message!".format(
+                request.form.get("name")))
     return render_template('contact.html', page_title='Contact Us')
 
 
